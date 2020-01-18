@@ -1,2 +1,45 @@
 # BOF-Basics
 Learning material for completely newcomers in the field of BOFs 
+
+# Buffer
+A buffer in actual is a temporary memory that is allocated to a particular program to retrieve and store the data whenever it requires. 
+Memory i.e. the buffer in this case is always limited and can store a finite amount of data. More specifically, the ones who are coding the program know how much data will be required by the program. That memory is known as buffer.
+
+# Buffer Overflow 
+This occurs when the buffer limit is exceeded i.e. when we put more data than what was actually expected by the buffer. This happens in programs when we try to write data into the buffer and we overrun the actual buffer size. So, the extra data overwrites the adjacent memory locations.
+
+Suppose, we have an array in C which can be initialized as above.
+
+``` C
+char array[10];
+```
+Now, we have defined implicitly that this array will be storing 10 data members. Suppose it to be integers from 0-9. When we will try to add more than 10 value and will see what happens when we do it so!
+
+Consider the following program which takes 10 values from the user on runtime and copies them into the array.
+
+```C
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+int main(int argc, char *argv[]) {
+
+        char array[10];
+
+        strcpy(array, argv[1]);
+
+        printf("Data : %s", array);
+
+        return 0;
+}
+```
+On Linux, we can utilize the gcc compiler to compile this code. Once compiled we will run the executable and will supply it values 0 through 9. We can see that our program has successfully accepted the values and have printed them on the screen.
+
+![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/1.png)
+
+Now, we will supply more data to the program which it is expecting. 
+
+![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/2.png)
+
+We can see that we have achieved "Segmentation Fault". This means that the buffer was overflowed.
+
+
