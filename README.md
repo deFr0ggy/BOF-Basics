@@ -50,4 +50,4 @@ There are mainly two types of "Buffer Overflows" named as above.
 1. Stack-Based Buffer Overflow
 2. Heap-Based Buffer OVerflow
 
-In this chapter, we will only be looking onto finding and exploiting "Stack-Based Buffer Overflows".
+For the sake of basics, will only be looking onto finding and exploiting "Stack-Based Buffer Overflows".
