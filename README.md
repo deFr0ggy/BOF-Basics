@@ -42,4 +42,12 @@ Now, we will supply more data to the program which it is expecting.
 
 We can see that we have achieved "Segmentation Fault". This means that the buffer was overflowed.
 
+GCC or GNU C Compiler has many buit-in functions by default which prevents buffer overflow vulnerabilties. While we are learning we will turn off those checks for our learnings.
 
+# Types of Buffer Overflows
+There are mainly two types of "Buffer Overflows" named as above.
+
+1. Stack-Based Buffer Overflow
+2. Heap-Based Buffer OVerflow
+
+In this chapter, we will only be looking onto finding and exploiting "Stack-Based Buffer Overflows".
