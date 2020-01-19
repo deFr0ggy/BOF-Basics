@@ -52,20 +52,7 @@ There are mainly two types of "Buffer Overflows" named as above.
 
 For the sake of basics, will only be looking onto finding and exploiting "Stack-Based Buffer Overflows".
 
-# Finding Buffer Overflows
-There are 2 most commonly used techniques for finding "Buffer OVerflows". 
-
-1. Fuzzing 
-2. Debugging
-
-## 1. Fuzzing
-This is the most easiest way to find "Buffer Overflows". In fuzzing we try to send bigger chunks of data in order to crash the program. Once the program crashes we try to find the exact part where the program gets crashed and then we try to use it for our advantage.
-
-There are few tools available online for fuzzing as well as some comes pre-built in Kali Linux. Meanwhile we can also write our own scripts to perform fuzzing.
-
-___
-Now we will try to find the "Buffer Overflow" vulnerability in one of our own written programs. But before that we need to recompile our code to remove the basic "Buffer Overflow" security mechanism which is implemented while we compile our program with GCC. So we will turn those protections off so that we can exploit this vulnerability. 
-___
+# Security Protections Against Buffer Overflows 
 The security mechanism which have been added to Windows by Microsoft are as above.
 
 1. DEP - Data Execution Prevention
@@ -99,6 +86,22 @@ Now, what happens due to ASLR is that these two instructions are put far away fr
 
 <b>Reference - </b> https://en.wikipedia.org/wiki/Address_space_layout_randomization
 
+
+# Finding Buffer Overflows
+There are 2 most commonly used techniques for finding "Buffer OVerflows". 
+
+1. Fuzzing 
+2. Debugging
+
+## 1. Fuzzing
+This is the most easiest way to find "Buffer Overflows". In fuzzing we try to send bigger chunks of data in order to crash the program. Once the program crashes we try to find the exact part where the program gets crashed and then we try to use it for our advantage.
+
+There are few tools available online for fuzzing as well as some comes pre-built in Kali Linux. Meanwhile we can also write our own scripts to perform fuzzing.
+
+___
+Now we will try to find the "Buffer Overflow" vulnerability in one of our own written programs. But before that we need to recompile our code to remove the basic "Buffer Overflow" security mechanism which is implemented while we compile our program with GCC. So we will turn those protections off so that we can exploit this vulnerability. 
+___
+
 We will be using the same program but we will limit the array size to 5 to keep it as small and simple as possible.
 
 ```C
@@ -117,8 +120,6 @@ int main(int argc, char *argv[]) {
 }
 ```
 Now, we need to compile this program.
-
-
 
 ## 2. Debugging
 Debugging is the process of finding and locating errors in computer programs. There are different tools available online by using which we can perform debugging and can look for potential "Buffer OVerflows".
