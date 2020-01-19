@@ -51,3 +51,18 @@ There are mainly two types of "Buffer Overflows" named as above.
 2. Heap-Based Buffer OVerflow
 
 For the sake of basics, will only be looking onto finding and exploiting "Stack-Based Buffer Overflows".
+
+# Finding Buffer Overflows
+There are 2 most commonly used techniques for finding "Buffer OVerflows". 
+
+1. Fuzzing 
+2. Debugging
+
+## 1. Fuzzing
+This is the most easiest way to find "Buffer Overflows". In fuzzing we try to send bigger chunks of data in order to crash the program. Once the program crashes we try to find the exact part where the program gets crashed and then we try to use it for our advantage.
+
+There are few tools available online for fuzzing as well as some comes pre-built in Kali Linux. Meanwhile we can also write our own scripts to perform fuzzing.
+
+## 2. Debugging
+Debugging is the process of finding and locating errors in computer programs. There are different tools available online by using which we can perform debugging and can look for potential "Buffer OVerflows".
+
