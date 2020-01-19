@@ -63,6 +63,44 @@ This is the most easiest way to find "Buffer Overflows". In fuzzing we try to se
 
 There are few tools available online for fuzzing as well as some comes pre-built in Kali Linux. Meanwhile we can also write our own scripts to perform fuzzing.
 
+___
+Now we will try to find the "Buffer Overflow" vulnerability in one of our own written programs. But before that we need to recompile our code to remove the basic "Buffer Overflow" security mechanism which is implemented while we compile our program with GCC. So we will turn those protections off so that we can exploit this vulnerability. 
+___
+The security mechanism which have been added to Windows by Microsoft are as above.
+
+1. DEP - Data Execution Prevention
+2. ASLR - Address Space Layout Randomization
+
+## DEP - Data Execution Prevention
+Programs require memory in order to run and execute. DEP is a security feature which helps protect the system memory and the memory reserved for the authorized apps to not be used unethically by any other program. DEP keeps an eye on the memory management of the programs and as soon a particular program tries to execute instructions from antoher memory location. It is stopped and the user is notified. 
+
+In technical words, DEP enables system to set some memory locations to be non-executable. This works by setting non-execution flag on some pages like default heap, stack and memory pools. As soon as the program tries to execute instruction from these protected data pages. Is is stopped to do such activities. 
+
+This is the basic working of DEP on Windows.
+
+<b>Reference - </b> https://docs.microsoft.com/en-us/windows/win32/memory/data-execution-prevention
+
+We will be using the same program but we will limit the array size to 5 to keep it as small and simple as possible.
+
+```C
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+int main(int argc, char *argv[]) {
+
+        char array[5];
+
+        strcpy(array, argv[1]);
+
+        printf("Data : %s", array);
+
+        return 0;
+}
+```
+Now, we need to compile this program.
+
+
+
 ## 2. Debugging
 Debugging is the process of finding and locating errors in computer programs. There are different tools available online by using which we can perform debugging and can look for potential "Buffer OVerflows".
 
