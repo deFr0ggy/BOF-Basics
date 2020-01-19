@@ -80,6 +80,25 @@ This is the basic working of DEP on Windows.
 
 <b>Reference - </b> https://docs.microsoft.com/en-us/windows/win32/memory/data-execution-prevention
 
+## ASLR - Address Space Layout Randomization
+Address Space Layout Randomization is also a security feature which has been implemented by the Microsoft in order to get rid of "Buffer Overflow" vulnerabilities. ASLR as the name suggests "Space" and "Randomization" are the key words. On the memory there are different buffers (memory regions) where data is required to be stored. Those locations have their particular addresses. What ASLR does is it randomized those address of memory locations so that it becomes hard to guess which part of the program sits on which location. This happens automatically when the program is run. 
+
+In technical words, when the program is executed it is allowed a specific process region in which it has to complete its exectution. The program needs different regios to put its data i.e. stack, heap, libraries etc. So, ASLR randomized the addresses of stack, heap and libraries positions in the allocated program's memory region. 
+
+Let's understand it with an example.
+
+We know that instructions are executeed one after an other. Consider the following two lines.
+
+```C
+1 - strcpy(array, argv[1]);
+2 - printf("Data : %s", array);
+```
+We know that these are two instruction. At first, the 1st instruction will be executed and then the 2nd instruction will be executed. Suppose we wrote a complete program and ran it on Windows machine. Now the OS has allocated 60-blocks of memory (automatically) for the execution of these 2 lines. But we know that only 2 blocks are required to complete the execution of these instructions i.e. 1-60 blocks, so 1st and 2nd block will be used.
+
+Now, what happens due to ASLR is that these two instructions are put far away from each other. Suppose the first instruction is kept in 1st memory block and the other (WE DON'T KNOW) but it has been added to randomized memory location. So if we keep our exploit code on second line. We don't know the address where it has been shifted to by the OS, so we won't be able to call it because we have to use the EIP (Instruction Pointer).
+
+<b>Reference - </b> https://en.wikipedia.org/wiki/Address_space_layout_randomization
+
 We will be using the same program but we will limit the array size to 5 to keep it as small and simple as possible.
 
 ```C
