@@ -63,7 +63,11 @@ Programs require memory in order to run and execute. DEP is a security feature w
 
 In technical words, DEP enables system to set some memory locations to be non-executable. This works by setting non-execution flag on some pages like default heap, stack and memory pools. As soon as the program tries to execute instruction from these protected data pages. Is is stopped to do such activities. 
 
-This is the basic working of DEP on Windows.
+Consider that two applications are running at the same time. The OS has allocated different memory regions for both application. Suppose we have total of 20 bytes of memory. The 1st application gets the first 10 bytes and the 2nd application gets the remaining 10 bytes. So, both have different address spaces and are running in different memory locations. 
+
+Now application 1 can not execute anything from the memory which has been allocated to the 2nd application and similarly the 2nd application can not execute anything from the memory which has been allocated to the 1st application. They solely have to complete their execution while being in their own memory limits. 
+
+If applications do not follow the process DEP mechanism will be called and the applications will be terminated.
 
 <b>Reference - </b> https://docs.microsoft.com/en-us/windows/win32/memory/data-execution-prevention
 
