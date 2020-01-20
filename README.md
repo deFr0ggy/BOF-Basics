@@ -140,8 +140,8 @@ In similar way the stacks work. Stacks only have two basic operation i.e. PUSH a
 
 ![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/s1.png)
 
-<b>a - </b> In figure (a) we can see that we have an empty stack.
-<b>b - </b> In figure (b) we pushed character A on the stack which was placed on the bottom.
+<b>a - </b> In figure (a) we can see that we have an empty stack. <br>
+<b>b - </b> In figure (b) we pushed character A on the stack which was placed on the bottom. <br>
 <b>c - </b> In Figure (c) we can see that character A was popped out of stack leaving the stack empty.
 
 ## 2. Debugging
