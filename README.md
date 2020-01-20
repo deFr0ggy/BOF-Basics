@@ -123,7 +123,22 @@ int main(int argc, char *argv[]) {
         return 0;
 }
 ```
-Now, we need to compile this program.
+Now, we will compile this program with the default options set with GCC.
+
+![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/3.png)
+
+We can see that we were able to compile the program. Also we know that the program can only hold 5 values but in this case it is accepting more. But if we move way more further we get the segmentation fault. It is because the GCC by default set different flags which prohibit the buffers to overflow.
+___
+Before moving any further, we need to discuss the STACKS here. What they are and how we are getting the STACK BASED BUFFER OVERFLOWS.
+___
+## STACKS
+Stack is a data structure based on LIFO (Last In First Out). Which means that the last value to be added on the stack will be the first to remove or release. 
+```
+Consider a glass of water. What happens when you pour water into it. It starts to fill up from the bottom and when to try to drink the water it gets released from the top of the glass to the bottom and at the end the glass is empty. 
+```
+In similay way the stacks work. Stacks only have two basic operation i.e. PUSH and POP. PUSH is used to add something on the stack which starts to be placed from the bottom and the data can be pushed until the stack is full. Meanwhile POP is used to remove the values from the STACK and it POPs the values from top to bottom. Values can be popped until there are no more values left on the stack.
+
+![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/s1.png)
 
 ## 2. Debugging
 Debugging is the process of finding and locating errors in computer programs. There are different tools available online by using which we can perform debugging and can look for potential "Buffer OVerflows".
