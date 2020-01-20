@@ -144,6 +144,10 @@ In similar way the stacks work. Stacks only have two basic operation i.e. PUSH a
 <b>b - </b> In figure (b) we pushed character A on the stack which was placed on the bottom. <br>
 <b>c - </b> In Figure (c) we can see that character A was popped out of stack leaving the stack empty.
 
+Similarly in the image we can see that one by one 3 characters were pushed onto the stack and one by one they were popped out of the stack leaving the stack empty.
+
+![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/s2.png)
+
 ## 2. Debugging
 Debugging is the process of finding and locating errors in computer programs. There are different tools available online by using which we can perform debugging and can look for potential "Buffer OVerflows".
 
