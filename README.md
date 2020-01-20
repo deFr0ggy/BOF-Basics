@@ -136,9 +136,13 @@ Stack is a data structure based on LIFO (Last In First Out). Which means that th
 ```
 Consider a glass of water. What happens when you pour water into it. It starts to fill up from the bottom and when to try to drink the water it gets released from the top of the glass to the bottom and at the end the glass is empty. 
 ```
-In similay way the stacks work. Stacks only have two basic operation i.e. PUSH and POP. PUSH is used to add something on the stack which starts to be placed from the bottom and the data can be pushed until the stack is full. Meanwhile POP is used to remove the values from the STACK and it POPs the values from top to bottom. Values can be popped until there are no more values left on the stack.
+In similar way the stacks work. Stacks only have two basic operation i.e. PUSH and POP. PUSH is used to add something on the stack which starts to be placed from the bottom and the data can be pushed until the stack is full. Meanwhile POP is used to remove the values from the STACK and it POPs the values from top to bottom. Values can be popped until there are no more values left on the stack.
 
 ![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/s1.png)
+
+<b>a - </b> In figure (a) we can see that we have an empty stack.
+<b>b - </b> In figure (b) we pushed character A on the stack which was placed on the bottom.
+<b>c - </b> In Figure (c) we can see that character A was popped out of stack leaving the stack empty.
 
 ## 2. Debugging
 Debugging is the process of finding and locating errors in computer programs. There are different tools available online by using which we can perform debugging and can look for potential "Buffer OVerflows".
