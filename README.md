@@ -188,7 +188,7 @@ bash -c 'echo 0 > /proc/sys/kernel/randomize_va_space'
 ```
 2. We will compile our program with GCC while turning off the Stack Protections which are enabled by default.
 ```
-gcc -o sample -fno-stack-protector -z execstack sample.c
+gcc -fno-stack-protector -z execstack -no-pie sample.c -o sample
 ```
 As here we are turning off the protections we need to know which protections are being turned off here. 
 ```
@@ -219,22 +219,15 @@ Here we can see that on supplying 13 values to the program we get the "Segmentat
 
 Program can be loaded within GDB by issuing the following command.
 ```
-gdb ./sample [where ./sample is your compiled program]
-```
-Then we will set the ASSEMBLY Flavor which is going to be Intel.
-```
-set disassembly-flavor intel
+gdb -q ./sample [where ./sample is your compiled program]
 ```
 Once loaded within GDB we can use the following command to run it with the values.
 ```
-run 12345
+run AAAAA (A is 0x41 in HEX)
 ```
 In the above image we can see that we were able to load the program in GDB and is accepting the minimum values. Meanwhile when we try to supply it 13 values we get the "Segmentation Fault".
 
 ![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/5.png)
-
-
-
 
 ## 2. Debugging
 Debugging is the process of finding and locating errors in computer programs. There are different tools available online by using which we can perform debugging and can look for potential "Buffer OVerflows".
