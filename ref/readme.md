@@ -5,6 +5,9 @@ Below are few of the links from where i have been taking help for self-learning 
 https://github.com/hugsy/gef
 
 ## Articles
+
+https://d4mianwayne.github.io/posts/fmt-bof (Motivation)
+
 https://blog.rapid7.com/2019/02/19/stack-based-buffer-overflow-attacks-what-you-need-to-know/
 
 https://en.wikipedia.org/wiki/Buffer_overflow_protection
