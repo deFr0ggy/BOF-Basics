@@ -148,6 +148,11 @@ Similarly in the image we can see that one by one 3 characters were pushed onto 
 
 ![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/s2.png)
 
+Now we will take a look onto how this program is actually running on the system and how we are getting the "Segmentation Fault".
+
+![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/s3.png)
+
+
 ## 2. Debugging
 Debugging is the process of finding and locating errors in computer programs. There are different tools available online by using which we can perform debugging and can look for potential "Buffer OVerflows".
 
