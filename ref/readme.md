@@ -10,4 +10,6 @@ https://www.tenouk.com/Bufferoverflowc/Bufferoverflow4.html
 
 https://www.win.tue.nl/~aeb/linux/hh/protection.html
 
+https://en.wikipedia.org/wiki/Position-independent_code
+
 ## YouTube Videos
