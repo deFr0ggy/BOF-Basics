@@ -264,3 +264,82 @@ The most important for Stack Based Buffer Overflows are EBP and ESP. We know the
 We know that stacks grows from higher memory addresses to lower memory addresses. In this case EBP is the base pointer so it has to point at the base which in this case is the highest memory location from where the stack is starting. We also know the ESP points to the top of the stack so it was set to ESP=EBP so that they both have the same starting point. As soon as the values are started to PUSHED onto the stack the ESP negates the highest value with 4bytes to move onto the next memory location. Similarly addition of 4 to the previous one is done so that it keeps on moving downwards 4bytes everytime towards the lower memory addresses as soon as the values are PUSHED onto the stack. 
 
 Similarly when the data is being popped, 4bytes are added to the ESP like ESP+16, ESP+12, ESP+8, ESP+4 and at the end EBP=ESP which means that the stack is empty now.
+
+___
+As we now a good understanding of low level details. Now we will move onto working with the GDB.
+___
+
+## GDB (Analysing The Binary)
+Once our program has been loaded into the GDB. We can see the different functions of the program by issuing the below command.
+```
+info functions
+```
+![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/9.png)
+
+We can see different functions in the image but the key interest for us is the main function. So we can disassemble to binary code into assembly code of the main function by issuing the below command. 
+```
+disas main
+```
+![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/10.png)
+
+Here we can see that from the top stack is being allocated due to rbp and rsp and then we can see 'strcpy' function being called and at the end we can see 'puts' function. So we have an idea that:
+
+1. Memory is being allocated.<br>
+2. Something is being copied into the buffer using 'strcpy' function.<br>
+3. Values are shown on the screen by using 'puts' function.<br>
+
+In the picture we can see the above instruction.
+```
+0x000000000040114c <+26>:    lea    rax,[rbp-0x5]
+```
+lea stands for "Load Effective Address". This is same as MOV instruction which copies the actual data from source to the destination where LEA copies the address from the source to the destination. 
+
+At this point we will put a breakpoint. (Breakpoints are used to analyze the program step by step. Once we set the breakpoint the execution of the program will be stopped at this point so that we can analyze the state of the program at this point.
+
+Breakpoint can be set in the following way and then we can issue data to the program.
+```
+b *main+26
+r AAAA
+```
+![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/11.png)
+
+We can see that value AAAAA is being taken and then is being pushed somwhere. We can examine particular register values. In this case we will look onto the RDX register if it has our issues data or not!
+```
+x/s $rdx
+```
+![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/12.png)
+
+Indeed the register has our values. Now we will set another breakpoint on the above location.
+```
+0x40115f <main+45>        mov    rdi, rax
+```
+So the breakpoint can be set here in the following way.
+```
+b *main+45
+```
+After this we can use the "c" command to continue the execution of our program. 
+
+![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/13.png)
+
+Here we can see that the lea instruction has been executed and the address which was loaded is of stack so we analyzed this stack location and found our supplied data.
+
+From here we start exploiting the Buffer Overflow Vulnerability. We will create a pattern and will supply that particular pattern to our program. This can be done by issuing the above command. 
+```
+pattern create 20 (Which created this pattern - aaaaaaaabaaaaaaacaaa)
+```
+After that we run our program until it executes completely by issuing the above command.
+```
+r aaaaaaaabaaaaaaacaaa
+```
+On looking the data in the register we can see these values in the RBP and ESP registers.
+
+![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/14.png)
+
+The thing which is required to be noted here is the value (aaacaaa) as this is the value which is being overwritten and making the buffer to overflow. So we can check the exact location of this data where it is placed by issuing the above command.
+```
+pattern search aaacaaa
+```
+After this we can check the RSP register value and we can see that indeed this data is present on RSP.
+
+![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/15.png)
+
