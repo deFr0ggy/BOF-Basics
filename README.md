@@ -196,12 +196,20 @@ As here we are turning off the protections we need to know which protections are
 -fno-stack-protector : Disables Stack Canaries
 -no-pie : Disables Position Independent Executables 
 ```
+___
 ## 1. Stack Canaries
 Canaries are the known words which are actually placed between the buffer and the control data on the stack. This is to monitor the stack based buffer overflows.
 When the buffer overflows, the first data to be corrupted is the canary value. As soon as this value gets corrupted there is a failure in verification of the canary value which in turns alerts an error which is then handled by the system. 
 Below figure gives an idea about how "Stack Canary" values are placed.
 
 ![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/6.png)
+
+## 2. Non-Executable Stack
+Sometimes the "Buffer Overflow" puts data in program's data space and on stack. These are writable memory locations. But if they are made non-executable then that data will not be executed and by so Buffer Overflow will be prevented. 
+
+## 3. Position Independent Executables
+PIE is actually the body of machine code which is placed somehwere else in the primary memory but it executes properly irrespective of being placed on different locations. PIE randomizes the instruction and function addresses everytime a particulae program is run.
+___
 
 3. We will run our program until we get the "Segmentation Fault"
 
