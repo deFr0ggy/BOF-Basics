@@ -339,7 +339,7 @@ The thing which is required to be noted here is the value (aaacaaa) as this is t
 ```
 pattern search aaacaaa
 ```
-After this we can check the RSP register value and we can see that indeed this data is present on RSP. Where the above command examines the first 20 values of RSP register.
+After this we can check the RSP register value and we can see that indeed this data is present on RSP. Where the above command examines the first 20 values in string of RSP register.
 ```
 x/20s $rsp
 ```
