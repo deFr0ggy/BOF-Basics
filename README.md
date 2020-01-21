@@ -179,6 +179,55 @@ In the above image we can see all these sections together.
 
 We can see that it starts from Lower Memory and grows towards Higher Memory. While only the Stack goes from Higher Memory to Lower Memory. 
 
+## Exploiting The Program
+Now, we will be exploiting our previous program. We will be using GDB which is a GNU Debugger. It aid us in looking on the registers level i.e. How the program and it's values are being entertained.
+
+1. We will turn off the ASLR protection on our system. 
+```
+bash -c 'echo 0 > /proc/sys/kernel/randomize_va_space'
+```
+2. We will compile our program with GCC while turning off the Stack Protections which are enabled by default.
+```
+gcc -o sample -fno-stack-protector -z execstack sample.c
+```
+As here we are turning off the protections we need to know which protections are being turned off here. 
+```
+-z execstack : Disables Executable Stack
+-fno-stack-protector : Disables Stack Canaries
+-no-pie : Disables Position Independent Executables 
+```
+## 1. Stack Canaries
+Canaries are the known words which are actually placed between the buffer and the control data on the stack. This is to monitor the stack based buffer overflows.
+When the buffer overflows, the first data to be corrupted is the canary value. As soon as this value gets corrupted there is a failure in verification of the canary value which in turns alerts an error which is then handled by the system. 
+Below figure gives an idea about how "Stack Canary" values are placed.
+
+![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/6.png)
+
+3. We will run our program until we get the "Segmentation Fault"
+
+![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/4.png)
+
+Here we can see that on supplying 13 values to the program we get the "Segmentation Fault". Now we will run this program with GDB in order to analyze it further. 
+
+Program can be loaded within GDB by issuing the following command.
+```
+gdb ./sample [where ./sample is your compiled program]
+```
+Then we will set the ASSEMBLY Flavor which is going to be Intel.
+```
+set disassembly-flavor intel
+```
+Once loaded within GDB we can use the following command to run it with the values.
+```
+run 12345
+```
+In the above image we can see that we were able to load the program in GDB and is accepting the minimum values. Meanwhile when we try to supply it 13 values we get the "Segmentation Fault".
+
+![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/5.png)
+
+
+
+
 ## 2. Debugging
 Debugging is the process of finding and locating errors in computer programs. There are different tools available online by using which we can perform debugging and can look for potential "Buffer OVerflows".
 
