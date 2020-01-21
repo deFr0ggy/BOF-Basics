@@ -8,4 +8,6 @@ https://en.wikipedia.org/wiki/Buffer_overflow_protection
 
 https://www.tenouk.com/Bufferoverflowc/Bufferoverflow4.html
 
+https://www.win.tue.nl/~aeb/linux/hh/protection.html
+
 ## YouTube Videos
