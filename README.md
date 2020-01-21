@@ -339,7 +339,10 @@ The thing which is required to be noted here is the value (aaacaaa) as this is t
 ```
 pattern search aaacaaa
 ```
-After this we can check the RSP register value and we can see that indeed this data is present on RSP.
+After this we can check the RSP register value and we can see that indeed this data is present on RSP. Where the above command examines the first 20 values of RSP register.
+```
+x/20s $rsp
+```
 
 ![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/15.png)
 
