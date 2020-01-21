@@ -152,6 +152,32 @@ Now we will take a look onto how this program is actually running on the system 
 
 ![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/s3.png)
 
+___
+In the above image we can see that the OS has allocated space for our program. The whole program is loaded and for the array a stack has been allocated. The Stacks on lower level works the opposite i.e. they grow from Higher Memory to Lower Memory. When we start adding the data it is being pushed onto the stack and a point comes where the Return Address stores is over written. That's the point where we get the "Segmentation Fault" because there is no instruction to be executed and the Return Address has been overwritten so the program crashes here. From here we can add our own address to make this program execute our instructions.
+___
+Now let's take a look on LOW LEVEL stuff. 
+Whenever we run a program on the system. The data is loaded into the ADDRESS SPACE which is allocated by the Operating System. That address space have different sections and the data is loaded into those sections. 
+
+<b>.text - </b> This section contains the actual code of the program. The code which the programmer/coder has written.<br>
+<b>.data - </b> This section contains the initialized data of the program. The variables which has been assigned values.<br>
+```
+int a = 5;
+char b = 'c';
+```
+<b>.bss - </b> This section contains the uninitialized data of the program. The variables whih has not been assigned the values.<br>
+```
+int a;
+char b;
+float c;
+```
+<b>.stack - </b> The stack is allocated where the local variables and arguments of the program are loaded.<br>
+<b>.heap - </b> Heap is the extra memory allocated by the OS so that if program needs more memory it can utilize this memory. 
+
+In the above image we can see all these sections together.
+
+![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/s4.png)
+
+We can see that it starts from Lower Memory and grows towards Higher Memory. While only the Stack goes from Higher Memory to Lower Memory. 
 
 ## 2. Debugging
 Debugging is the process of finding and locating errors in computer programs. There are different tools available online by using which we can perform debugging and can look for potential "Buffer OVerflows".
