@@ -229,6 +229,38 @@ In the above image we can see that we were able to load the program in GDB and i
 
 ![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/5.png)
 
-## 2. Debugging
-Debugging is the process of finding and locating errors in computer programs. There are different tools available online by using which we can perform debugging and can look for potential "Buffer OVerflows".
+Now we can see that in GDB we are able to get the Segmentation Fault but there is one more important thing to know before we get into analyzing the binary i.e. Assembly.
 
+The programs are run on the processor level and the process is the one which processes all these details. So we need to know a little bit about processor internal working before we move onto doing anything. 
+
+## Registers (GPRs)
+Registers are small storage areas available as a part of the CPU while General Purpose Registers are those registers which are used by the CPU during the execution. There are total of 8 general purpose registers. These reegisters have their own specific purposes but these can be utilized by the programmer as per their own choice as well. 
+Meanwhile the ESP and EBP shall be avoided as much as they are used for Stack Frames and if their values are not stored things can be messed up. 
+
+There are 8 GPRs (General Purpose Registers) in processor. 
+
+<b>EAX - </b> Accumulator Register (Stores Return Values and for Arithmetic and Logical Operations)<br>
+<b>EBX - </b> Base Register (Memory Management)<br>
+<b>ECX - </b> Counter Register  (Loops and Counters)<br>
+<b>EDX - </b> Data Register (Input/Output)<br>
+<b>ESP - </b> Stack Pointer (Points on the top of the stack) <b>[Important]</b><br>
+<b>EBP - </b> Base Pointer (Points to the base of the stack) <b>[Important]</b><br>
+<b>ESI - </b> Source Index (Starting address of the source) - From where the values are required to be fetched.<br>
+<b>EDI - </b> Destination Index (Address of Destination) - Where values are required to be stored.<br>
+
+One more register which is of key interest is:
+<b>EIP - </b> Instruction Pointer (Points to the next instruction which is required to be executed)<br>
+
+The first 4 GPRs (EAX, EBX, ECX, EDX) have different sections as well. The "E" here stands for Extended in 32bits. In 64bits the "E" is replaced by "R". 64bits CPU/Processors are more common these days. These 4 GRPs can be divided as above.
+
+![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/7.png)
+
+The EAX, EBX, ECX and EDX have 2 separate portions i.e. AH, AL, BH, BL, CH, CL where "H" is for the 8bit higher addresses and "L" for 8bit lower addresses. Combining AH and AL we have AX Register (32bits) similarly BX, CX and DX. While these were extended which made them 32bits registers and nowadays they are more extended and are represented by RAX, RBX, RCX, RDX, RSP, RBP, RSI, RDI.
+
+The most important for Stack Based Buffer Overflows are EBP and ESP. We know the basic working of Stacks. Let's learn them via these registers. 
+
+![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/8.png)
+
+We know that stacks grows from higher memory addresses to lower memory addresses. In this case EBP is the base pointer so it has to point at the base which in this case is the highest memory location from where the stack is starting. We also know the ESP points to the top of the stack so it was set to ESP=EBP so that they both have the same starting point. As soon as the values are started to PUSHED onto the stack the ESP negates the highest value with 4bytes to move onto the next memory location. Similarly addition of 4 to the previous one is done so that it keeps on moving downwards 4bytes everytime towards the lower memory addresses as soon as the values are PUSHED onto the stack. 
+
+Similarly when the data is being popped, 4bytes are added to the ESP like ESP+16, ESP+12, ESP+8, ESP+4 and at the end EBP=ESP which means that the stack is empty now.
