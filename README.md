@@ -455,6 +455,73 @@ On running the script and then looking onto the Immunity Debugger we can see tha
 
 ![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/e12.png)
 
+Now, we need to look for the bad characters in our sheelcode which we are going to generate. We can manually check for the bad-characters also. Below is the blog which will aid us in checking stuff manually! 
+
+- https://bulbsecurity.com/finding-bad-characters-with-immunity-debugger-and-mona-py/
+
+We will use the above shellcode to check for the bad-characters.
+
+```
+badchars = ("\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f"
+"\x20\x21\x22\x23\x24\x25\x26\x27\x28\x29\x2a\x2b\x2c\x2d\x2e\x2f\x30\x31\x32\x33\x34\x35\x36\x37\x38\x39\x3a\x3b\x3c\x3d\x3e\x3f\x40"
+"\x41\x42\x43\x44\x45\x46\x47\x48\x49\x4a\x4b\x4c\x4d\x4e\x4f\x50\x51\x52\x53\x54\x55\x56\x57\x58\x59\x5a\x5b\x5c\x5d\x5e\x5f"
+"\x60\x61\x62\x63\x64\x65\x66\x67\x68\x69\x6a\x6b\x6c\x6d\x6e\x6f\x70\x71\x72\x73\x74\x75\x76\x77\x78\x79\x7a\x7b\x7c\x7d\x7e\x7f"
+"\x80\x81\x82\x83\x84\x85\x86\x87\x88\x89\x8a\x8b\x8c\x8d\x8e\x8f\x90\x91\x92\x93\x94\x95\x96\x97\x98\x99\x9a\x9b\x9c\x9d\x9e\x9f"
+"\xa0\xa1\xa2\xa3\xa4\xa5\xa6\xa7\xa8\xa9\xaa\xab\xac\xad\xae\xaf\xb0\xb1\xb2\xb3\xb4\xb5\xb6\xb7\xb8\xb9\xba\xbb\xbc\xbd\xbe\xbf"
+"\xc0\xc1\xc2\xc3\xc4\xc5\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf"
+"\xe0\xe1\xe2\xe3\xe4\xe5\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff")
+```
+
+![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/e13.png)
+
+Now, we will run the script and will look at the Immunity Debugger. Right click on the ESP and click on Follow In Dump! 
+
+![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/e14.png)
+
+Now we are looking into the HexDump and our priority is to find the bad characters. Which in this case is not true. There are no bad characters in VulnServer because this was designed to be really easy and straight forward. 
+
+Till now we have the control over EIP and we need to find a way to run our shellcode which will be present in the ESP. So in order to do so we need to find the opcode for the JMP instruction. This can be done by using the NASM shell. 
+
+![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/e15.png)
+
+So the JMP ESP has the opcode of FFE4! 
+
+From here onwards we need to download MONA for Immunity Debugger which can be downloaded from the above URL.
+
+- https://github.com/corelan/mona
+
+Download the python file and add it to the above directory.
+
+![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/e16.png)
+
+In the command bar. Enter the above command to look for the modules. 
+
+```
+!mona modules
+```
+
+By running this command we can see the dependencies of the VulnServer. These can be files/executables/DLLs and it also shows protections whether they are enabled on them or not. So at this point we are looking for something which is attached to the VulnServer by itself and has no protections on it. 
+
+![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/e17.png)
+
+From the results we can note down the "essfunc.dll" which has no protections enabled by default. 
+
+Now we will check if there are any jumps being made to any place! for this reason we will use the above command
+
+```
+!mona -s "\xFFE4" -m essfunc.dll
+!mona -s "\xFF\xE4" -m essfunc.dll
+```
+
+![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/e18.png)
+
+
+
+
+
+
+
+
 
 
 
