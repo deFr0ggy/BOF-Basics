@@ -560,10 +560,10 @@ nc -nlvp 4444
 ![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/e26.png)
 
 ---
-I have been writing this for quite sometime and it took me a while to complete this. Do leave your suggestions and STARS if you like it! Don't forget to follow me on Twitter @deFr0ggy <3 Thank you!
+I have been writing this for quite sometime and it took me a while to complete this. Do leave your suggestions and STARS if you like it! Don't forget to follow me on Twitter [@deFr0ggy](https://twitter.com/deFr0ggy). Thank you!
 
 Kudos Given
-- @Woodookitty [Reviewing & Grammar Correction]
+- [Woodookitty - Reviewing & Grammar Correction](https://twitter.com/Woodookitty)
 
 
 
