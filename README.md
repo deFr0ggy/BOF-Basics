@@ -1,6 +1,11 @@
 # BOF-Basics
 Learning material for completely newcomers in the field of BOFs 
 
+## Prerequisite
+
+- Basic Understanding of Assembly Language
+- Basic Understanding of Scripting Languages (Python)
+
 # Buffer
 A buffer in actual is a temporary memory that is allocated to a particular program to retrieve and store the data whenever it requires. 
 Memory i.e. the buffer in this case is always limited and can store a finite amount of data. More specifically, the ones who are coding the program know how much data will be required by the program. That memory is known as buffer.
