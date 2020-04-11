@@ -568,8 +568,8 @@ nc -nlvp 4444
 
 ![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/e26.png)
 
-
-
+---
+I have been writing this for quite long and it took me a while to complete this. Do leave your suggestions and STARS if you like it! Don't forget to follow me on Twitter @deFr0ggy <3 Thank you! 
 
 
 
