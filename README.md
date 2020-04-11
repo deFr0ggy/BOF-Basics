@@ -515,6 +515,69 @@ Now we will check if there are any jumps being made to any place! for this reaso
 
 ![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/e18.png)
 
+Let's note down the first return address here which is "0x625011af".
+
+Now We need to recheck this. Click on the blueish icon from the menu bar and enter this address.
+
+![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/e19.png)
+
+We can see that it is indeed exactly what we checked for using the NASM shell! 
+
+![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/e20.png)
+
+Now we will add break point at this location! Press F2 and it will add the breakpoint. Because we want to make sure that we are on the right track we want the execution to stop here. The reason is that we are going to be the ones who will be pointing this jump to the vulnerable code. 
+
+![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/e21.png)
+
+We need to add this return address in the reverse order due to the vulnerable system being 32 bits (little endian). So "0x625011af" becomes "\xaf\x11\x50\x62".
+
+Finally we will edit our python code and will run it! 
+
+![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/e22.png)
+
+We can see that the EIP is now pointing to the address we wanted it to and this makes sure that we are the ones who are controlling the EIP. 
+
+Now we will generate the shellcode and will exploit the system. We will be utilzing msfvenom to generate the shellcode. 
+
+![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/e23.png)
+
+We created a shellcode which is pointing to our IP address and port. Also the code we have generated is for x86 architecture and we have removed the back character here which is null byte. The payload we are using in this scenario is windows based which provides the reverse connection when the shellcode is executed! 
+
+Now we need to edit our python script which will look like this! 
+
+![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/e24.png)
+
+Now we want to make sure that there is a good space between the JMP and our shellcode so that when it is executed there is no intereference with that. So for that we can add the NOPS which stand for No Operation. They actually dont' really do anything but they add a sort of padding and cleans the space! 
+
+By adding the NOPs our final python code will look like as above. 
+
+![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/e25.png)
+
+## Getting The Reverse Shell
+Finally we are done with the coding part and now it is the time to exploit the VulnServer and get our reverse shell! For this we will listen to port 4444 via netcat and will close the Immunity Debugger. Just make sure that the VulnServer is running as Administrator.
+
+- Listening on NetCat
+
+```
+nc -nlvp 4444
+```
+
+- Run The Python Script
+
+- We have got the reverse shell! 
+
+![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/e26.png)
+
+
+
+
+
+
+
+
+
+
+
 
 
 
