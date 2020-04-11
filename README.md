@@ -370,3 +370,94 @@ As far as the setup is concerned i am using Windows 10 and Kali Linux 2020 as a 
 - Windows 10: https://www.microsoft.com/en-us/evalcenter/
 - Oracle VirtualBox: https://www.virtualbox.org/wiki/Downloads
 
+You will need to download VulnServer and Immunity Debugger on your Windows machine and make sure that you run it as Administrator so that we can have more access to everything. Also make it sure that all the firewalls and AV protections are turned off on your Windows Machine (Lab).
+
+### Running VulnServer & Immunity Debugger
+
+- Run the VulnServer as Administrator
+
+![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/e1.png)
+
+- Run the Immunity Debugger as Administrator
+
+![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/e2.png)
+
+- Attach the VulnServer in Immunity Debugger (File -> Attach -> VulnServer)
+
+![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/e3.png)
+
+- At first the VulnServer attached with the Immunity Debugger will be paused (can be seen in the bottom right corner). We need to run it by clicking on the play button from the menu bar.
+![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/e4.png)
+
+Once everything is running till now we will move onto our Kali Linux machine and will start poking around.
+
+### Moving Onto Our Attacking Phase
+At first, we need to make sure that we are able to access the VulnServer from our Kali Machine and for this purpose we will utilize NetCat to make a connection to VulnServer and see if it is responding/connecting to our machine or not. 
+
+```
+nc -nv <windows machine IP> 9999
+```
+
+We can see that we are able to connect to our VulnServer and by supplying the HELP command we can see the different functions which are added with the VulnServer and some of them are exploitable. 
+
+Now we will start writing our python script to automate the task. We wil be using python socket module for making connection. Also we will be sending 5000 characters along the TRUN command to see how actually the VulnServer behaves.
+
+```
+import socket 
+
+target = "192.168.10.12"
+port = 9999
+
+buffer = 'A' * 5000
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+connect = s.connect((target, port))
+print s.recv(1024)
+s.send(('TRUN .' + buffer))
+print s.recv(1024)
+```
+
+So what we are doing here is that:
+
+- We are connecting to the VulnServer
+- We are sending TRUN command along 5000 A characters
+- We are receiving the response. 
+
+On running the script we can see that VulnServer has stopped running and there are bunch of A characters which have overflown the buffer space. 
+
+![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/e5.png)
+
+On utilizing the same script and sending the character 'A' of about 2700 occurences crashed the VulnServer. At this moment we need to find the offset. For this reason we will use another utility which will create patterns for us.
+
+![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/e6.png)
+
+At this point we will create a pattern of 3000 bytes so that we can find the offset.
+
+![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/e7.png)
+
+Now we need to add this pattern to our python script and send it over to the VulnServer and check where it is crashing.
+
+![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/e8.png)
+
+So finally we can see that the VulnServer has crashed again and the values have overwritten everything.
+
+![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/e9.png)
+
+We need to note down the value of the EIP at this point and use the pattern_offset to find the exact offset location. Which in my case is 2006.
+
+![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/e10.png)
+
+Now let's edit our python script to target the offset. We will try to overwrite the EIP with 4 B's.
+
+![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/e11.png)
+
+On running the script and then looking onto the Immunity Debugger we can see that we have successfully added 4 B's into the EIP.
+
+![alt text](https://github.com/d3fr0ggy/BOF-Basics/blob/master/images/e12.png)
+
+
+
+
+
+
+
